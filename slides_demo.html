@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Week X</title>
+    <!-- reveal.js css -->
+    <link rel="stylesheet" href="dist/reset.css"/>
+    <link rel="stylesheet" href="dist/reveal.css"/>
+    <link rel="stylesheet" href="dist/theme/blood.css" id="theme"/>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme"/>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1 style="font-size: 2em;">Create Stunning Presentations using Reveal.js</h1>
+            </section>
+            <section>
+                <section>
+                    <h1 style="font-size: 2em;">What is Reveal.js?</h1>
+                    <ul class="browser-default">
+                        <li class="fragment">
+                            Reveal.js is an open source HTML presentation framework. It's a tool that enables anyone
+                            with a
+                            web
+                            browser
+                            to create fully-featured and beautiful presentations for free.
+                        </li>
+                        <li class="fragment">
+                            Presentations made with reveal.js are built on open web technologies. That means anything
+                            you can do on the web, you can do in your presentation. Change styles with CSS, include an
+                            external web page using an &lt;iframe&gt; or add your own custom behavior using our
+                            JavaScript
+                            API.
+                        </li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h1 style="font-size: 2em;">Installing reveal.js</h1>
+                    <ul class="browser-default">
+                        <li class="fragment">The basic setup is the easiest way to get started. No need to set up any
+                            build tools.</li>
+                        <li class="fragment">The full setup gives you access to the build tools needed to make changes
+                            to the reveal.js source code. It includes a web server which is required if you want to load
+                            external Markdown files (the basic setup paired with your own choice of local web server
+                            works too).</li>
+                        <li class="fragment">If you want to use reveal.js as a dependency in your project, you can
+                            install from npm.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2 style="font-size: 1em;">Basic Setup</h2>
+                    <p style="text-align: left;">
+                        We make a point of distributing reveal.js in a way that it can be used by as many people as
+                        possible. The basic setup is our most broadly accessible way to get started and only
+                        requires
+                        that
+                        you have a web browser. There's no need to go through a build process or install any
+                        dependencies.
+                    </p>
+                </section>
+                <section>
+                    <h2 style="font-size: 1em;">Steps for Basic setup</h2>
+                    <ul class="browser-default">
+                        <li class="fragment">Download the latest reveal.js version
+                            https://github.com/hakimel/reveal.js/archive/master.zip</li>
+                        <li class="fragment">Unzip and replace the example contents in index.html with your own</li>
+                        <li class="fragment">Open index.html in a browser to view it</li>
+                    </ul>
+                </section>
+            </section>
+        </div>
+    </div>
+</body>
+
+
+<!-- reveal.js javascript -->
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+
+<script src="javascript/feedback_plugin.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // URL to Google App Script.. needs to be updated for new server script 
+        const SERVER_URL = "URL_TO_GOOGLE_APP_SCRIPT_FILE";
+        
+        const POST_URL = "?path=/add-question";
+
+        let revealElement = document.querySelector(".reveal");
+        let presentation = new Reveal(revealElement, {
+            hash: true,
+            slideNumber: true,
+            fragments: true,
+            center: false,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, FeedbackPlugin(POST_URL)]
+        });
+        presentation.initialize();
+    });
+</script>
+
+</html>
