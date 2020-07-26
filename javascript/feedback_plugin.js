@@ -64,6 +64,74 @@ function FeedbackPlugin(postUrl) {
             extension.writeCookie(cookieName, "", -1);
         },
 
+        showToast: function (text, type) {
+            const toastId = "toast";
+
+            if (!$(`#${toastId}`)[0]) {
+                $("body").append(`
+                <div id="toast"></div> 
+                <style>
+                    #toast {
+                        position: fixed;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translate(-50%);
+                        background-color: #42AD64;
+                        color: white;
+                        padding: 16px;
+                        border-radius: 4px;
+                        text-align: center;
+                        z-index: 10;
+                        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+                        visibility: hidden;
+                        opacity: 0;
+                    }
+
+                    #toast.show {
+                        visibility: visible;
+                        animation: fadeInOut 3s;
+                    }
+
+                    @keyframes fadeInOut {
+
+                        5%,
+                        95% {
+                            opacity: 1;
+                            bottom: 50px
+                        }
+
+                        15%,
+                        85% {
+                            opacity: 1;
+                            bottom: 30px
+                        }
+                    }
+                </style>
+                `);
+            }
+
+            $(`#${toastId}`).css("background-color", (type === "ok") ? "#42AD64" : "#FA002E");
+            $(`#${toastId}`).text(text);
+            $(`#${toastId}`).addClass("show");
+            setTimeout(function() {
+                $(`#${toastId}`).removeClass("show");
+            }, 3000);
+        },
+
+        escapeTags : function(text) {
+            let tagsToReplace = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;'
+            };
+
+            let replaceTag = function(tag) {
+                return tagsToReplace[tag] || tag;
+            };
+
+            return text.replace(/[&<>]/g, replaceTag);
+        },
+
         /**
          * Loads up the question dialog box which allows the user to type in a question for
          * the selected text. It handles the event which fires of the request to send
@@ -74,65 +142,204 @@ function FeedbackPlugin(postUrl) {
          */
         loadQuestionDialog: function (selectedText, currentSlideLink) {
             const dialogId = "question-modal";
-
             // If the question dialog is added to page, then add it
             if (!$(`#${dialogId}`)[0]) {
                 $("body").append(`
                 <div class="modal" id="${dialogId}">
+                    <div class="modal-header">
+                        <div class="title">
+                            <h1>Have a Question?</h1>
+                        </div>
+                    </div>
                     <div class="modal-content">
-                        <h4>Have a Question?</h4>
-                        <p>
-                            You have highlighted some text. If you have a question regarding the highlighted text, 
-                            please use the form below to ask the question. You can view all the questions asked by student <a href="question_dashboard.html">here.</a>
+                        <p style="font-size: 1.1em;">
+                            You have highlighted some text. If you have a question regarding the highlighted text,
+                            please use the form below to ask the question. You can view all the questions asked by students <a
+                                href="question_dashboard.html">here.</a>
                         </p>
-                        <h5>Your selected text</h5>
+                        <h2>Your selected text</h2>
                         <blockquote id="highlighted-text-place">
-                            ${selectedText} 
+                            <p>${extension.escapeTags(selectedText)}</p>
                         </blockquote>
 
-                        <div class="input-field col s6" id="question-input">
-                            <i class="material-icons prefix">insert_comment</i>
-                            <textarea id="question-text" class="materialize-textarea"></textarea>
-                            <label for="question-text">My Question is </label>
-                        </div>    
-                        <div class="progress" style="display: none;">
-                            <div class="indeterminate"></div>
-                        </div>  
+                        <div class="question-container">
+                            <textarea style="resize: none;" rows="5" cols="66" placeholder="My Question is..."
+                                id="question-text"></textarea>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <a class="teal darken-3 waves-effect waves-light btn" id="ask-btn">Ask Question</a>
-                        <a class="red darken-3 waves-effect waves-light btn" id="key-btn">Clear Key</a>
+                        <button id="key-btn">CLEAR KEY</button>
+                        <button id="ask-btn">ASK QUESTION</button>
                     </div>
                 </div>
-
+                <div id="overlay"></div>
                 <style>
-                    #toast-container { 
-                        min-width: 10%; 
-                        top: 60%; 
-                        right: 50%; 
-                        transform: translateX(50%) translateY(50%); 
+                    .modal div h1 {
+                        display: block !important;
+                        font-size: 2em !important;
+                        margin-top: 0.67em !important;
+                        margin-bottom: 0.67em !important;
+                        margin-left: 0 !important;
+                        margin-right: 0 !important;
+                        font-weight: bold !important;
                     }
-                </style>
+
+                    .modal h2 {
+                        display: block !important;
+                        font-size: 1.5em !important;
+                        margin-top: 0.83em !important;
+                        margin-bottom: 0.83em !important;
+                        margin-left: 0 !important;
+                        margin-right: 0 !important;
+                        font-weight: bold !important;
+                    }
+
+                    .modal div {
+                        display: block !important;
+                    }
+
+                    .modal p {
+                        display: block !important;
+                        margin-top: 1em !important;
+                        margin-bottom: 1em !important;
+                        margin-left: 0 !important;
+                        margin-right: 0 !important;
+                    }
+
+                    .modal blockquote {
+                        display: block !important;
+                        margin-top: 1em !important;
+                        margin-bottom: 1em !important;
+                        margin-left: 40px !important;
+                        margin-right: 40px !important;
+                    }
+
+                    .modal {
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%) scale(0);
+                        transition: 200ms ease-in-out;
+                        border: 1px solid black;
+                        border-radius: 10px;
+                        z-index: 10;
+                        background-color: white;
+                        width: 800px;
+                        max-width: 80%;
+                        max-height: 100%;
+                        overflow: auto;
+                    }
+
+                    .modal.active {
+                        transform: translate(-50%, -50%) scale(1);
+                    }
+
+                    .modal-header {
+                        padding: 10px 15px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        border-bottom: 1px solid black;
+                    }
+
+                    .modal-content {
+                        padding: 20px 15px;
+                    }
+
+                    .modal-footer {
+                        padding-left: 15px;
+                        padding-right: 15px;
+                        padding-top: 0px;
+                        padding-bottom: 20px;
+                        overflow: auto;
+                    }
+
+                    .key-container {
+                        margin-top: 10px;
+                    }
+
+                    .question-container {
+                        width: 100%;
+                    }
+
+                    #question-text {
+                        width: 100%;
+                        height: 100%;
+                        box-sizing: border-box;
+                        font-size: 1.15em;
+                    }
+
+                    #key-textfield {
+                        width: 100%;
+                        height: 100%;
+                        box-sizing: border-box;
+                        font-size: 1em;
+                    }
+
+                    #key-textfield {
+                        padding: 5px;
+                    }
+
+                    #highlighted-text-place {
+                        border-left: 5px solid #FFBABF;
+                        padding-left: 10px;
+                        text-align: justify;
+                    }
+
+                    #overlay {
+                        position: fixed !important;
+                        opacity: 0 !important;
+                        top: 0 !important;
+                        left: 0 !important;
+                        bottom: 0 !important;
+                        right: 0 !important;
+                        z-index: 9 !important;
+                        background-color: rgba(0, 0, 0, 0.5) !important;
+                        pointer-events: none !important;
+                    }
+
+                    #overlay.active {
+                        pointer-events: all !important;
+                        opacity: 1 !important;
+                    }
+
+                    #key-btn,
+                    #ask-btn {
+                        float: right;
+                        padding: 9px;
+                        border: none;
+                        cursor: pointer;
+                        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+                    }
+
+                    #ask-btn {
+                        background-color: green;
+                        color: white;
+                        margin-right: 7px;
+                    }
+
+                    #ask-btn:hover {
+                        background-color: darkgreen;
+                    }
+
+                    #key-btn {
+                        background-color: #FA002E;
+                        color: white;
+                    }
+
+                    #key-btn:hover {
+                        background-color: #AD0020;
+                    }
                 `);
 
                 // Checking if a key is already present. If not then ask for the key
                 if (extension.readCookie("key") == null) {
-                    $("#question-input").append(`
-                    <div class="input-field col s6" id="key-input">
-                        <i class="material-icons prefix">vpn_key</i>
-                        <input id="key-textfield" type="password" class="validate">
-                        <label for="key-textfield">Class key </label>
+                    $(`#${dialogId} .modal-content`).append(`
+                    <div class="key-container">
+                        <input placeholder="Class Key" id="key-textfield" type="password">
                     </div>
                     `);
                 }
-
-                // init dialog
-                $(`#${dialogId}`).modal({
-                    onCloseEnd: function () {
-                        $("#key-textfield").val("");
-                        $("#question-text").val("");
-                    }
-                });
 
                 // event handlers
                 $("#ask-btn").click(() => {
@@ -140,10 +347,8 @@ function FeedbackPlugin(postUrl) {
                     let keyString = (extension.readCookie("key") != null) ? extension.readCookie("key") : $("#key-textfield").val();
 
                     if (questionString.length <= 0 || keyString.length <= 0) {
-                        M.toast({
-                            html: 'Fill in the missing fields :)',
-                            displayLength: 2500
-                        });
+                        // TODO: toast here
+                        extension.showToast("Missing fields", "error");
                     } else {
                         let currentTitle = document.querySelector("title").innerText;
                         extension.sendFeedback(selectedText, currentSlideLink, currentTitle, questionString, keyString, postUrl);
@@ -154,27 +359,35 @@ function FeedbackPlugin(postUrl) {
                 $("#key-btn").click(() => {
                     if (extension.readCookie("key") != null) {
                         extension.deleteCookie("key");
-                        $("#question-input").append(`
-                        <div class="input-field col s6" id="key-input">
-                            <i class="material-icons prefix">vpn_key</i>
-                            <input id="key-textfield" type="password" class="validate">
-                            <label for="key-textfield">Class key </label>
+                        $(`#${dialogId} .modal-content`).append(`
+                        <div class="key-container">
+                            <input placeholder="Class Key" id="key-textfield" type="password">
                         </div>
                         `);
+                    } else {
+                        extension.showToast("Key already deleted!", "error");
                     }
                 });
 
             } else {
                 if (extension.readCookie("key") !== null) {
-                    $("#key-input").remove();
+                    $("#key-container").remove();
                 }
                 // Dialog already added. Simply change the selected text
                 $("#highlighted-text-place").empty();
-                $("#highlighted-text-place").append(selectedText);
+                $("#highlighted-text-place").append(extension.escapeTags(selectedText));
             }
 
-            // Show the dialog
-            $(`#${dialogId}`).modal("open");
+            $("#overlay").click(() => {
+                $(`#${dialogId}`).removeClass("active");
+                $("#question-text").val("");
+                $("#key-textfield").val("");
+                $("#overlay").removeClass("active");
+            });
+
+            // Show modal now
+            $(`#${dialogId}`).addClass("active");
+            $("#overlay").addClass("active");
         },
 
         /**
@@ -188,9 +401,6 @@ function FeedbackPlugin(postUrl) {
          * @param {String} postUrl The URL to post the question
          */
         sendFeedback: function (selectedText, currentSlideLink, week, question, keyString, postUrl) {
-            // Show the progress bar
-            $(".progress").css("display", "block");
-
             $.ajax({
                 method: "POST",
                 data: {
@@ -202,23 +412,18 @@ function FeedbackPlugin(postUrl) {
                 },
                 url: postUrl,
                 success: function (resp) {
-                    // hide progress bar since request is done
-                    $(".progress").css("display", "none");
                     if (resp.status == 200) {
                         // Everything well
                         extension.writeCookie("key", keyString);
-                        $("#question-modal").modal("close");
+                        $("#question-modal").removeClass("active");
+                        $("#question-text").val("");
+                        $("#key-textfield").val("");
+                        $("#overlay").removeClass("active");
 
-                        M.toast({
-                            html: 'Question posted :)',
-                            displayLength: 2500
-                        });
+                        extension.showToast("Question posted.", "ok")
                     } else {
                         // something went wrong
-                        M.toast({
-                            html: `${resp.messages}`,
-                            displayLength: 2500
-                        });
+                        extension.showToast("Missing fields", `${resp.messages}`);
                     }
                 }
             });
@@ -288,51 +493,18 @@ function FeedbackPlugin(postUrl) {
                 extension.setContainerSize(`#${CONTAINER_ID}`);
             });
 
-            /**
-             * Materialize css/js library and JQuery are the only dependencies
-             * we could allow the devs to include the dependencies statically but
-             * if they have many presentations then it would be a hassle... or they 
-             * might forget to add one... therefore this plugin will simply set those
-             * up for the dev :)
-             * 
-             * Materialize.css is used for styling the dialog box which allows the 
-             * user to type in their question
-             * 
-             * Materialize.js is used for animations
-             * 
-             * JQuery is used mainly for making AJAX request. But it also used
-             * for more complicated DOM manipulation.
-             */
-
-            extension.loadResource("link", onloadCallback = null, optionals = {
-                href: "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css",
-                rel: "stylesheet"
-            });
-
-            extension.loadResource("link", onloadCallback = null, optionals = {
-                href: "https://fonts.googleapis.com/icon?family=Material+Icons",
-                rel: "stylesheet"
-            });
-
             let jQueryCallback = function () {
                 let $ = window.jQuery;
 
-                let materializeJsCallback = function () {
+                // Event handler to get the selected text from the slide
+                $(`#${CONTAINER_ID}`).unbind('contextmenu').bind('contextmenu', function (event) {
+                    let selectedText = (window.getSelection) ? window.getSelection().toString() : "";
 
-                    // Event handler to get the selected text from the slide
-                    $(`#${CONTAINER_ID}`).unbind('contextmenu').bind('contextmenu', function (event) {
-                        let selectedText = (window.getSelection) ? window.getSelection().toString() : "";
-
-                        if (selectedText.length > 0) {
-                            event.preventDefault();
-                            let currentSlideLink = extension.getCurrentSlide(deck);
-                            extension.loadQuestionDialog(selectedText, currentSlideLink);
-                        }
-                    });
-                };
-
-                extension.loadResource("script", onload = materializeJsCallback, optionals = {
-                    src: "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
+                    if (selectedText.length > 0) {
+                        event.preventDefault();
+                        let currentSlideLink = extension.getCurrentSlide(deck);
+                        extension.loadQuestionDialog(selectedText, currentSlideLink);
+                    }
                 });
             };
 

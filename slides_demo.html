@@ -90,9 +90,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // URL to Google App Script.. needs to be updated for new server script 
-        const SERVER_URL = "URL_TO_GOOGLE_APP_SCRIPT_FILE";
-        
-        const POST_URL = "?path=/add-question";
+        const SERVER_URL = "URL_TO_GOOGLE_SCRIPT";
+        const POST_URL = SERVER_URL + "?path=/add-question";
 
         let revealElement = document.querySelector(".reveal");
         let presentation = new Reveal(revealElement, {

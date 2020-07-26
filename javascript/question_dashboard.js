@@ -1,10 +1,24 @@
 // URL to Google App Script.. needs to be updated for new server script 
-const URL = "URL_TO_GOOGLE_APP_SCRIPT_FILE";
+const URL = "URL_TO_GOOGLE_SCRIPT";
 
 // Holds the ID of the questions to answer globally
 var post = {
     id: "",
 };
+
+function escapeTags(text) {
+    let tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
+
+    let replaceTag = function (tag) {
+        return tagsToReplace[tag] || tag;
+    };
+
+    return text.replace(/[&<>]/g, replaceTag);
+}
 
 /**
  * Gets the value of the cookie
@@ -107,7 +121,7 @@ function addQuestionsToPage(questions) {
                         <div class="card-content">
                             <b>Highlighted Text:</b>
                             <blockquote>
-                                ${current.selectedText}
+                                ${escapeTags(current.selectedText)}
                             </blockquote>
                             <h5>Answer:</h5>
                             <p>${(current.answer.length > 0) ? current.answer : "No Answer Yet!"}</p>
@@ -279,6 +293,7 @@ $(document).ready(function () {
     if (readCookie("key") == null) {
         $("#key-modal").modal("open");
     } else {
+        sendAuthenticationRequest(readCookie("key"));
         populateQuestions();
     }
 });
