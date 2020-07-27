@@ -3,9 +3,10 @@
  * which can be later viewed by the lecturer from a dashboard or directly.
  * 
  * @param {String} postUrl The URL in which the questions will be POSTED to
+ * @param {String} dashboardUrl The URL in which all questions can be found
  * @returns {Object} Object which can be added to reveal.js instance as a plugin
  */
-function FeedbackPlugin(postUrl) {
+function FeedbackPlugin(postUrl, dashboardUrl) {
     extension = {
         id: "feedback-plugin",
 
@@ -155,7 +156,7 @@ function FeedbackPlugin(postUrl) {
                         <p style="font-size: 1.1em;">
                             You have highlighted some text. If you have a question regarding the highlighted text,
                             please use the form below to ask the question. You can view all the questions asked by students <a
-                                href="question_dashboard.html">here.</a>
+                                href="${dashboardUrl}">here.</a>
                         </p>
                         <h2>Your selected text</h2>
                         <blockquote id="highlighted-text-place">
@@ -410,7 +411,7 @@ function FeedbackPlugin(postUrl) {
                     key: keyString,
                     week: week
                 },
-                url: postUrl,
+                url: postUrl + "?path=/add-question",
                 success: function (resp) {
                     if (resp.status == 200) {
                         // Everything well
