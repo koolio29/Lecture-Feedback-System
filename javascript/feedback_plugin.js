@@ -411,7 +411,7 @@ function FeedbackPlugin(postUrl, dashboardUrl) {
                     key: keyString,
                     week: week
                 },
-                url: postUrl + "?path=/add-question",
+                url: postUrl,
                 success: function (resp) {
                     if (resp.status == 200) {
                         // Everything well

@@ -91,6 +91,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         // URL to Google App Script.. needs to be updated for new server script 
         const SERVER_URL = "URL_TO_GOOGLE_SCRIPT";
+        const QUESTION_POST = SERVER_URL + "?path=/add-question";
         const DASHBOARD_URL = "URL_TO_DASHBOARD";
 
         let revealElement = document.querySelector(".reveal");
@@ -99,7 +100,7 @@
             slideNumber: true,
             fragments: true,
             center: false,
-            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, FeedbackPlugin(SERVER_URL, DASHBOARD_URL)]
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, FeedbackPlugin(QUESTION_POST, DASHBOARD_URL)]
         });
         presentation.initialize();
     });

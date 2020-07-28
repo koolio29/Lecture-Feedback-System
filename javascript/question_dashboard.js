@@ -1,5 +1,8 @@
 // URL to Google App Script.. needs to be updated for new server script 
 const URL = "URL_TO_GOOGLE_SCRIPT";
+const VERIFY_URL = URL + "?path=/verify-user-type";
+const GET_ALL = URL + "?path=/get-all-questions";
+const ADD_ANS = URL + "?path=/add-answer";
 
 // Holds the ID of the questions to answer globally
 var post = {
@@ -160,7 +163,7 @@ function populateQuestions() {
         data: {
             key: readCookie("key"),
         },
-        url: URL + "?path=/get-all-questions",
+        url: GET_ALL,
         success: function (response) {
             $(".container").empty();
             $(".progress").css("display", "none");
@@ -189,7 +192,7 @@ function sendAuthenticationRequest(key) {
         data: {
             key: key
         },
-        url: URL + "?path=/verify-user-type",
+        url: VERIFY_URL,
         success: function (response) {
             $(".progress").css("display", "none");
             if (response.status == 200) {
@@ -254,7 +257,7 @@ $(document).ready(function () {
                     id: post.id,
 
                 },
-                url: URL + "?path=/add-answer",
+                url: ADD_ANS,
                 success: function (response) {
                     $("#answer-progress").css("display", "none");
                     if (response.status == 200) {
