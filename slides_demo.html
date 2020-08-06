@@ -87,12 +87,12 @@
 <script src="plugin/highlight/highlight.js"></script>
 
 <script src="javascript/feedback_plugin.js"></script>
+<script src="plugin/reveal.js-menu/menu.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // URL to Google App Script.. needs to be updated for new server script 
-        const SERVER_URL = "URL_TO_GOOGLE_SCRIPT";
-        const QUESTION_POST = SERVER_URL + "?path=/add-question";
-        const DASHBOARD_URL = "URL_TO_DASHBOARD";
+        const SERVER_URL = "https://script.google.com/macros/s/AKfycbwO69Oxza45usoRcJc0dRGZRH-S5Lug5iWqwjusMpyNMBpF3iw/exec";
 
         let revealElement = document.querySelector(".reveal");
         let presentation = new Reveal(revealElement, {
@@ -100,7 +100,23 @@
             slideNumber: true,
             fragments: true,
             center: false,
-            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, FeedbackPlugin(QUESTION_POST, DASHBOARD_URL)]
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMenu, FeedbackPlugin(SERVER_URL)],
+            menu: {
+                keyboard: false,
+                width: "third",
+                custom: [
+                    {
+                        title: 'Questions',
+                        icon: '<i class="fa fa-external-link">',
+                        src: '/reveal-menu-panels/question-panel.html'
+                    },
+                    {
+                        title: "Key Settings",
+                        icon: '<i class="fa fa-external-link">',
+                        src: '/reveal-menu-panels/key-panel.html'
+                    }
+                ]
+            }
         });
         presentation.initialize();
     });
