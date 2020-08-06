@@ -15,11 +15,9 @@ A quick demo of the system can be found [here]()
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.1 - Creating The Google SpreadSheet](#1.1.1---Creating-The-Google-SpreadSheet)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.2 - Setting Up The Google App Script](#1.1.2---Setting-Up-The-Google-App-Script)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.3 - Deploying the Google App Script](#1.1.3---Deploying-the-Google-App-Script)   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.4 - Server Endpoints](#1.1.4---Server-Endpoints)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.4 - Server Script Endpoints](#1.1.4---Server-Script-Endpoints)  
 &nbsp;&nbsp;&nbsp;&nbsp;[1.2 - Setting Up Front-End](#1.2---Setting-Up-Front-End)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.2.1 - Adding the Plugin](#1.2.1---Adding-the-Plugin)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.2.2 - Updating Default Dashboard URL](#1.2.2---Updating-Default-Dashboard-URL)  
-[2 - Usage](#2---Usage)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.2.1 - Adding the Plugin](#1.2.1---Adding-the-Plugins)    
 &nbsp;&nbsp;&nbsp;&nbsp;[2.1 - Asking Questions](#2.1---Asking-Questions)  
 &nbsp;&nbsp;&nbsp;&nbsp;[2.2 - Viewing Questions](#2.2---Viewing-Questions)  
 &nbsp;&nbsp;&nbsp;&nbsp;[2.3 - Answering Questions](#2.3---Answering-Questions)  
@@ -85,13 +83,63 @@ When the authorization is complete, you will be provided a URL which gives acces
 
 ![Depoloy url](/assets/deploy_url.png)
 
-#### 1.1.4 - Server Endpoints
+#### 1.1.4 - Server Script Endpoints
+
+| URL                          | Method | Required Parameters    | Description                                            |
+|------------------------------|--------|------------------------|--------------------------------------------------------|
+|/exec?path=/get-all-questions | POST   | __key__ = Secret key | Allows users to get all questions from the Google SpreadSheet |
+|/exec?path=/add-question      | POST   | __key__ = Secret key, <br>__question__ = The question, <br>__selectedText__ = Highlighted text, <br>__slideLink__ = Link to the slide, <br>__week__ = Week which the slide belong to | Adds a question to the Google SpreadSheet |
+|/exec?path=/add-answer        | POST   | __key__ = Secret key, <br>__id__ = Id of question, <br>__answer__ = Answer to question | Adds/Updates answer for a given question|
+|/exec?path=/verify-user-type  | POST   | __key__ = Secret key | Verifies the key and user type |
 
 ### 1.2 - Setting Up Front-End
 
-#### 1.2.1 - Adding the Plugin
+Before you can add in the plugins needed, please make sure that the `reveal.js-menu` is properly is setup in the project directory. It is recommended to use the manual installation of the plugin to avoid to avoid installing node.js. Manual installation guide can be found [here.](https://github.com/denehyg/reveal.js-menu#manual)
 
-#### 1.2.2 - Updating Default Dashboard URL
+Moreover, you will need to place the file(s) found in the `javascript` and `reveal-menu-panels` folder in your own project directory. These file are essential to for the front-end
+
+#### 1.2.1 - Adding the Plugins
+
+To setup the reveal presentation to allow questions to be asked, you will need to configure the reveal.js.
+
+Before you initialize the `reveal` instance import the required plugins to the `HTML` file of your presentation.
+```html
+<!-- Make sure the paths to the plugins are correct -->
+<script src="PATH_TO_PLUGIN/feedback_plugin.js"></script>
+<script src="PATH_TO_REVEAL_MENU/reveal.js-menu/menu.js"></script>
+```
+
+You can now copy the sample configuration below to your reveal presentation.
+
+Please make sure to change the `SERVER_URL` variable to the URL you got from [1.1.3 - Deploying the Google App Script](#1.1.3---Deploying-the-Google-App-Script)
+
+```javascript
+const SERVER_URL = "YOUR_GOOGLE_APP_SCRIPT_URL";
+Reveal.initialize({
+    // you can have other settings...
+
+    // You can add other plugins as well. RevealMenu and FeedbackPlugin(Server_URl) is required.
+    plugins: [RevealMenu, FeedbackPlugin(SERVER_URL)],
+
+    // Copy this as it is. Don't make any changes except for the path to the custom panels
+    menu: {
+        keyboard: false,
+        width: "third",
+        custom: [
+            {
+                title: 'Questions',
+                icon: '<i class="fas fa-comment-alt">',
+                src: '/PATH_TO_REVEAL_PANEL/question-panel.html'
+            },
+            {
+                title: "Key Settings",
+                icon: '<i class="fas fa-key">',
+                src: '/PATH_TO_REVEAL_PANEL/key-panel.html'
+            }
+        ]
+    }
+});
+```
 
 ## 2 - Usage
 
@@ -105,3 +153,5 @@ When the authorization is complete, you will be provided a URL which gives acces
 
 * [Gexpress](https://github.com/coderofsalvation/Gexpress) - Express middleware for google appscript (build NODEJS-like applications) + generated api-client .
 * [reveal.js](https://revealjs.com/) - Open source HTML presentation framework. Built-in API is used to create a plugin.
+* [reveal.js-menu](https://github.com/denehyg/reveal.js-menu) - Slide out menu for reveal.js.
+* [jQuery](https://jquery.com/) - Used to make Ajax calls and for DOM manipulation by the `reveal.js` plugin.
