@@ -1,4 +1,4 @@
-# Lecture Feedback System Demo
+# Lecture Feedback System
 
 This repository contains a [reveal.js](https://revealjs.com/) plugin written to allows students to ask questions regarding the content of the lecture. 
 
