@@ -10,17 +10,17 @@ A quick demo of the system can be found [here]()
 
 ### Table of Contents
 
-[1 - Getting Started](#1---getting-started)  
-&nbsp;&nbsp;&nbsp;&nbsp;[1.1 - Setting Up Server Script](#1.1-setting-up-server-script)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.1 - Creating The Google SpreadSheet](#1.1.1-creating-the-google-spreadsheet)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.2 - Setting Up The Google App Script](#1.1.2-setting-up-the-google-app-script)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.3 - Deploying the Google App Script](#1.1.3-deploying-the-google-app-script)   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.4 - Server Script Endpoints](#1.1.4-server-script-endpoints)  
+[1 - Getting Started](#1-getting-started)  
+&nbsp;&nbsp;&nbsp;&nbsp;[1.1 - Setting Up Server Script](#11-setting-up-server-script)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.1 - Creating The Google SpreadSheet](#111-creating-the-google-spreadsheet)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.2 - Setting Up The Google App Script](#112-setting-up-the-google-app-script)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.3 - Deploying the Google App Script](#113-deploying-the-google-app-script)   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.4 - Server Script Endpoints](#114-server-script-endpoints)  
 &nbsp;&nbsp;&nbsp;&nbsp;[1.2 - Setting Up Front-End](#1.2-setting-up-front-end)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.2.1 - Adding the Plugins](#1.2.1-adding-the-plugins)    
-&nbsp;&nbsp;&nbsp;&nbsp;[2.1 - Asking Questions](#2.1-asking-questions)  
-&nbsp;&nbsp;&nbsp;&nbsp;[2.2 - Viewing Questions](#2.2-viewing-questions)  
-&nbsp;&nbsp;&nbsp;&nbsp;[2.3 - Answering Questions](#2.3-answering-questions)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.2.1 - Adding the Plugins](#121-adding-the-plugins)    
+&nbsp;&nbsp;&nbsp;&nbsp;[2.1 - Asking Questions](#21-asking-questions)  
+&nbsp;&nbsp;&nbsp;&nbsp;[2.2 - Viewing Questions](#22-viewing-questions)  
+&nbsp;&nbsp;&nbsp;&nbsp;[2.3 - Answering Questions](#23-answering-questions)  
 [3 - Built With](#3-built-with)
 
 ## 1 - Getting Started
