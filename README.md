@@ -18,9 +18,11 @@ A quick demo of the system can be found [here]()
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.1.4 - Server Script Endpoints](#114-server-script-endpoints)  
 &nbsp;&nbsp;&nbsp;&nbsp;[1.2 - Setting Up Front-End](#1.2-setting-up-front-end)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1.2.1 - Adding the Plugins](#121-adding-the-plugins)    
+[2 - Usage](#2-usage)  
 &nbsp;&nbsp;&nbsp;&nbsp;[2.1 - Asking Questions](#21-asking-questions)  
 &nbsp;&nbsp;&nbsp;&nbsp;[2.2 - Viewing Questions](#22-viewing-questions)  
 &nbsp;&nbsp;&nbsp;&nbsp;[2.3 - Answering Questions](#23-answering-questions)  
+&nbsp;&nbsp;&nbsp;&nbsp;[2.4 - Changing The Secret Key](#24-changing-the-secret-key)   
 [3 - Built With](#3-built-with)
 
 ## 1 - Getting Started
@@ -145,9 +147,37 @@ Reveal.initialize({
 
 ### 2.1 - Asking Questions
 
+There are two ways to ask questions. 
+
+The first way is to simply click the button in the top right corner of the screen. This will open a dialog box in which you can type in your question. You maybe asked to enter a secret key if its not set. This secret key can be seen in the Google SpreadSheet created in [1.1.1 - Creating The Google SpreadSheet](#111-creating-the-google-spreadsheet).
+
+![Depoloy Config](/assets/asking_question_1.gif)
+
+The second way to ask a question is to highlight the text in the presentation that you have a question about and right click. This will again open the dialog box in which you can type in your question.
+
+![Depoloy Config](/assets/asking_question_2.gif)
+
 ### 2.2 - Viewing Questions
 
+You can view questions asked for the presentation you are viewing by opening the side menu and going to the questions tab.
+
+The questions tab will show the questions asked by the students and will allow you to view the slide, by clicking the "View in Context" button, in which they had the question.
+
+![Depoloy Config](/assets/viewing_questions.gif)
+
 ### 2.3 - Answering Questions
+
+In order to answer questions asked by students, you will need to have added the administrative secret key. Check [2.4 - Changing The Secret Key](#24-changing-the-secret-key) to see how to change the key. 
+
+When the administrative key is added, you can once again view the questions as shown in [2.2 - Viewing Questions](#22-viewinq-questions). You will notice a textfield will be present in order for you to type in the answer for the question. If the answer is already given for a question, you can update the answer of the question by simply writing down a new answer.
+
+![Depoloy Config](/assets/answering_question.gif)
+
+### 2.4 - Changing The Secret Key
+
+To change the secret key, open the side menu and click on the "Key Settings" tab. This will show whether the key if a key is currently set or not. If its not set then you can simply add your key and click "Authenticate" button. If a key is already present, you can always remove the key and type in your new key.
+
+![Depoloy Config](/assets/changing_key.gif)
 
 ## 3 - Built With
 
