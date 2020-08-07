@@ -169,7 +169,7 @@ The questions tab will show the questions asked by the students and will allow y
 
 In order to answer questions asked by students, you will need to have added the administrative secret key. Check [2.4 - Changing The Secret Key](#24-changing-the-secret-key) to see how to change the key. 
 
-When the administrative key is added, you can once again view the questions as shown in [2.2 - Viewing Questions](#22-viewinq-questions). You will notice a textfield will be present in order for you to type in the answer for the question. If the answer is already given for a question, you can update the answer of the question by simply writing down a new answer.
+When the administrative key is added, you can once again view the questions as shown in [2.2 - Viewing Questions](#22-viewing-questions). You will notice a textfield will be present in order for you to type in the answer for the question. If the answer is already given for a question, you can update the answer of the question by simply writing down a new answer.
 
 ![Depoloy Config](/assets/answering_question.gif)
 
