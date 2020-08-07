@@ -398,7 +398,7 @@ function showQuestionBox(selectedText, currentSlideLink, url) {
  *  
  * @param {Array} questions An array questions objects
  */
-function addQuestionsToPage(questions) {
+function addQuestionsToPage(questions, url) {
     $(".custom-menu-container").empty();
     for (let i = 0; i < questions.length; i++) {
         $(".custom-menu-container").append(`
@@ -509,7 +509,7 @@ function getQuestions(key, url) {
                 let questions = getQuestionsForPresentation(response);
 
                 if (questions.length > 0) {
-                    addQuestionsToPage(questions);
+                    addQuestionsToPage(questions, url);
                 } else {
                     $(".custom-menu-container").append("<h3>No Questions Available</h3>");
                 }
