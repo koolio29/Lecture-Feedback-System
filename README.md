@@ -4,8 +4,6 @@ This repository contains a [reveal.js](https://revealjs.com/) plugin written to 
 
 Furthermore, it contains instructions to setup a quick and easy "server" to store the questions asked by students and get questions asked by other students. In addition to this, the "server" provides an end point to post answers to those questions stored in a "database"
 
-A quick demo of the system can be found [here]()
-
 *__Note:__* For the latest features, pull `develop` branch.
 
 ### Table of Contents
