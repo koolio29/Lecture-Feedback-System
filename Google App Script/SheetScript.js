@@ -1,5 +1,5 @@
 // spreadSheet object stores the reference to the spreadsheet we want to use... link needs to change for every new deployment
-var spreadSheet = SpreadsheetApp.openByUrl("YOUR_GOOGLE_SPREASHEET_URL");
+var spreadSheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Wf_mRl3d4GQ00PSEI8rqJ8J8NHlPo1eFFXxJTkLuO8g/edit#gid=893931470");
 
 // The spreadsheet needs to contain the the following sheets:-
 // Questions -> Contains everything related to questions
@@ -179,7 +179,7 @@ app.post("/add-question", function (request, response, next) {
             status: 400,
             message: "Missing Key"
         }
-    } else if (!isStudent(userKey) && isAdmin(key)) {
+    } else if (!isStudent(userKey) && !isAdmin(userKey)) {
         resp = {
             status: 400,
             message: "Invalid key"
